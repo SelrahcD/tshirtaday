@@ -1,0 +1,9 @@
+{
+    "require": {
+        "phpunit/phpunit": "~4.6",
+        "behat/behat": "~3.0"
+    },
+    "config": {
+        "bin-dir": "bin/"
+    }
+}
