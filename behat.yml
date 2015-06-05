@@ -1,0 +1,7 @@
+default:
+    suites:
+        catalog:
+            paths:
+                features: src/tshirtaday/catalog/features
+            contexts:
+                - TShirtADay\Catalog\Features\Contexts\ManageCatalogContext

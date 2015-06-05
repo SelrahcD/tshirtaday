@@ -1,9 +1,18 @@
 {
     "require": {
         "phpunit/phpunit": "~4.6",
-        "behat/behat": "~3.0"
+        "behat/behat": "~3.0",
+        "ramsey/uuid": "~2.8",
+        "beberlei/assert": "~2.3",
+        "mockery/mockery": "0.9.*"
     },
     "config": {
         "bin-dir": "bin/"
+    },
+    "autoload": {
+        "psr-4": {
+            "TShirtADay\\Catalog\\": "src/tshirtaday/catalog/src",
+            "TShirtADay\\Catalog\\Features\\": "src/tshirtaday/catalog/features"
+        }
     }
 }
