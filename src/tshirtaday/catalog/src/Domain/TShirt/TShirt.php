@@ -34,6 +34,11 @@ class TShirt {
         return $this->id->equals($id);
     }
 
+    public function id()
+    {
+        return $this->id;
+    }
+
     public function description()
     {
         return $this->description;

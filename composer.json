@@ -4,7 +4,8 @@
         "behat/behat": "~3.0",
         "ramsey/uuid": "~2.8",
         "beberlei/assert": "~2.3",
-        "mockery/mockery": "0.9.*"
+        "mockery/mockery": "0.9.*",
+        "buttercup/protects": "dev-master@dev"
     },
     "config": {
         "bin-dir": "bin/"
