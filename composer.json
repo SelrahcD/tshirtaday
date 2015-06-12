@@ -13,7 +13,9 @@
     "autoload": {
         "psr-4": {
             "TShirtADay\\Catalog\\": "src/tshirtaday/catalog/src",
-            "TShirtADay\\Catalog\\Features\\": "src/tshirtaday/catalog/features"
+            "TShirtADay\\Catalog\\Features\\": "src/tshirtaday/catalog/features",
+            "TShirtADay\\Votes\\": "src/tshirtaday/votes/src",
+            "TShirtADay\\Votes\\Features\\": "src/tshirtaday/votes/features"
         }
     }
 }

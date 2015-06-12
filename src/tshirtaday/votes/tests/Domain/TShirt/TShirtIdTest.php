@@ -1,0 +1,28 @@
+<?php
+namespace TShirtADay\Votes\Domain\TShirt;
+
+use PHPUnit_Framework_TestCase;
+
+class TShirtIdTest extends PHPUnit_Framework_TestCase
+{
+
+    /**
+     * @test
+     */
+    public function equals_return_true_if_TShirtId_are_the_same()
+    {
+        $tid1 = $tid2 = new TShirtId(12345);
+        $this->assertTrue($tid1->equals($tid2));
+    }
+
+    /**
+     * @test
+     */
+    public function equals_return_false_if_TShirtId_are_the_same()
+    {
+        $tid1 = new TShirtId(12345);
+        $tid2 = new TShirtId(00000);
+        $this->assertFalse($tid1->equals($tid2));
+    }
+
+}

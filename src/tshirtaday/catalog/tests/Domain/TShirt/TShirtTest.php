@@ -1,7 +1,7 @@
 <?php
+namespace TShirtADay\Catalog\Domain\TShirt;
 
-use TShirtADay\Catalog\Domain\TShirt\TShirt;
-use TShirtADay\Catalog\Domain\TShirt\TShirtId;
+use PHPUnit_Framework_TestCase;
 
 class TShirtTest extends PHPUnit_Framework_TestCase
 {

@@ -5,3 +5,8 @@ default:
                 features: src/tshirtaday/catalog/features
             contexts:
                 - TShirtADay\Catalog\Features\Contexts\ManageCatalogContext
+        votes:
+            paths:
+                features: src/tshirtaday/votes/features
+            contexts:
+                - TShirtADay\Votes\Features\Contexts\VoterCanVoteForATshirtForADay

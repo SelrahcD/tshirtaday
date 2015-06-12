@@ -13,5 +13,8 @@
         <testsuite name="Catalog Test Suite">
             <directory>./src/tshirtaday/catalog/tests/</directory>
         </testsuite>
+        <testsuite name="Votes Test Suite">
+            <directory>./src/tshirtaday/votes/tests/</directory>
+        </testsuite>
     </testsuites>
 </phpunit>
