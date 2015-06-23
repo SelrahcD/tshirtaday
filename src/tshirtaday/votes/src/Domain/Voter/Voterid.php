@@ -12,6 +12,6 @@ class VoterId {
 
     public function equals(VoterId $otherVoterId)
     {
-        return $this->value == $otherVoterId->value;
+        return $this->value === $otherVoterId->value;
     }
 }

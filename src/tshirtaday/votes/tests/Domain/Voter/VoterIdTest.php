@@ -23,4 +23,14 @@ class VoterIdTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($vid1->equals($vid2));
     }
 
+    /**
+     * @test
+     */
+    public function equals_return_false_if_VoterId_are_from_different_type()
+    {
+        $vid1 = new VoterId('AAA');
+        $vid2 = new VoterId(000);
+        $this->assertFalse($vid1->equals($vid2));
+    }
+
 }

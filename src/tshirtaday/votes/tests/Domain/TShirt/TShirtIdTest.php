@@ -25,4 +25,22 @@ class TShirtIdTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($tid1->equals($tid2));
     }
 
+    /**
+     * @test
+     */
+    public function toNative_return_native_value()
+    {
+        $tid = new TShirtId(12345);
+        $this->assertEquals(12345, $tid->toNative());
+    }
+
+    /**
+     * @test
+     */
+    public function toString_return_native_value()
+    {
+        $tid = new TShirtId(12345);
+        $this->assertEquals(12345, (string) $tid);
+    }
+
 }

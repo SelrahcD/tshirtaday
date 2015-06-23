@@ -13,13 +13,14 @@ use TShirtADay\Votes\Domain\TShirt\TShirtId;
 use TShirtADay\Votes\Domain\VotingSession\VotingSession;
 use TShirtADay\Votes\Infrastructure\Repositories\InMemory\InMemoryVotingSessionRepository;
 use TShirtADay\Votes\Infrastructure\Repositories\InMemory\InMemoryVoteRepository;
-
+use TShirtADay\Votes\Domain\Vote\VoteValidator;
+use TShirtADay\Votes\Domain\Vote\ValidationHandler;
+use TShirtADay\Votes\Domain\Clock\TestClock as Clock;
 /**
  * Defines application features from the specific context.
  */
 class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
 {
-
     private $currentVoter;
 
     private $tshirtRepository;
@@ -28,13 +29,17 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
 
     private $voteRepository;
 
-    private $today;
+    private $voteOutcome;
+
+    private $clock;
 
     public function __construct()
     {
         $this->tshirtRepository = new InMemoryTShirtRepository;
         $this->votingSessionRepository = new InMemoryVotingSessionRepository;
         $this->voteRepository = new InMemoryVoteRepository;
+        $this->validationHandler = new ValidationHandler;
+        $this->clock = new Clock;
     }
 
     /**
@@ -68,7 +73,7 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
      */
     public function todayIs($today)
     {
-        $this->today = new \DateTimeImmutable($today);
+        $this->clock->setToday(new \DateTimeImmutable($today));
     }
 
     /**
@@ -77,7 +82,14 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
     public function iVoteForTheTshirtForThe($tshirtId, $day)
     {
         $vote = $this->currentVoter->voteForTShirtOn(new TShirtId($tshirtId), new \DateTimeImmutable($day));
-        $this->voteRepository->add($vote);
+
+        $validator = new VoteValidator($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
+        
+        $validator->validate($vote, $this->validationHandler);
+
+        if(!$this->validationHandler->hasError()) {
+            $this->voteRepository->add($vote);
+        }
     }
 
     /**
@@ -85,6 +97,33 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
      */
     public function tshirtShouldHaveVoteForThe($tshirtId, $day, $voteCount)
     {
-         \PHPUnit_Framework_Assert::assertEquals($voteCount, count($this->voteRepository->votesForTShirtOn(new TShirtId($tshirtId), new \DateTimeImmutable($day))));
+        \PHPUnit_Framework_Assert::assertEquals($voteCount, count($this->voteRepository->votesForTShirtOn(new TShirtId($tshirtId), new \DateTimeImmutable($day))));
+    }
+
+    /**
+     * @Given voter has voted for tshirt :tid for the :day
+     */
+    public function voterHasVotedForTshirtForThe($tid, $day)
+    {
+        $vote = $this->currentVoter->voteForTShirtOn(new TShirtId($tid), new \DateTimeImmutable($day));
+        $this->voteRepository->add($vote);
+    }
+
+    /**
+     * @Then I should have an error :message
+     */
+    public function iShouldHaveAnError($message)
+    {
+        \PHPUnit_Framework_Assert::assertEquals($message, $this->validationHandler->getErrors()[0]);
+    }
+
+    /**
+     * @Given there is a TShirt with id :tid that was elected
+     */
+    public function thereIsATshirtWithIdThatWasElected($tid)
+    {
+        $tshirt = new TShirt(new TShirtId($tid));
+        $tshirt->isElected();
+        $this->tshirtRepository->add($tshirt);
     }
 }

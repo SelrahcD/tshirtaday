@@ -4,6 +4,7 @@ namespace TShirtADay\Votes\Infrastructure\Repositories\InMemory;
 use TShirtADay\Votes\Domain\Vote\Vote;
 use TShirtADay\Votes\Domain\Vote\VoteRepository;
 use TShirtADay\Votes\Domain\TShirt\TShirtId;
+use TShirtADay\Votes\Domain\Voter\VoterId;
 
 final class InMemoryVoteRepository implements VoteRepository {
     
@@ -19,6 +20,20 @@ final class InMemoryVoteRepository implements VoteRepository {
         return array_filter($this->votes, function($vote) use($tshirtId, $day) {
             return $vote->isForTShirtOn($tshirtId, $day);
         });
+    }
+
+    public function voteForVoterOn(VoterId $voterId, \DateTimeImmutable $day)
+    {
+        $votes = array_filter($this->votes, function($vote) use($voterId, $day) {
+            return $vote->isFromVoterOn($voterId, $day);
+        });
+
+        if($vote = reset($votes))
+        {
+            return $vote;
+        }
+
+        return null;
     }
 
 }

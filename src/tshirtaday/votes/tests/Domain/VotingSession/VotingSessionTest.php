@@ -42,5 +42,49 @@ class VotingSessionTest extends PHPUnit_Framework_TestCase
         new VotingSession(new \DateTimeImmutable("13-01-1989"), new \DateTimeImmutable("12-01-1989"), new \DateTimeImmutable("13-01-1989"));
     }
 
+    /**
+     * @test
+     */
+    public function acceptVoteOn_return_true_if_date_is_between_opening_and_closing_date()
+    {
+        $session = new VotingSession(new \DateTimeImmutable("13-01-1989"), new \DateTimeImmutable("10-01-1989"), new \DateTimeImmutable("12-01-1989"));
+        $this->assertTrue($session->acceptVoteOn(new \DateTimeImmutable("10-01-1989")));
+    }
+
+    /**
+     * @test
+     */
+    public function acceptVoteOn_return_false_if_date_after_closing_date()
+    {
+        $session = new VotingSession(new \DateTimeImmutable("13-01-1989"), new \DateTimeImmutable("10-01-1989"), new \DateTimeImmutable("12-01-1989"));
+        $this->assertFalse($session->acceptVoteOn(new \DateTimeImmutable("13-01-1989")));
+    }
+
+    /**
+     * @test
+     */
+    public function acceptVoteOn_return_false_if_date_is_before_opening_date()
+    {
+        $session = new VotingSession(new \DateTimeImmutable("13-01-1989"), new \DateTimeImmutable("10-01-1989"), new \DateTimeImmutable("12-01-1989"));
+        $this->assertFalse($session->acceptVoteOn(new \DateTimeImmutable("09-01-1989")));
+    }
+
+    /**
+     * @test
+     */
+    public function isFor_return_true_if_days_are_matching()
+    {
+        $session = new VotingSession(new \DateTimeImmutable("13-01-1989"), new \DateTimeImmutable("10-01-1989"), new \DateTimeImmutable("12-01-1989"));
+        $this->assertTrue($session->isFor(new \DateTimeImmutable('13-01-1989')));
+    }
+
+    /**
+     * @test
+     */
+    public function isFor_return_false_if_days_are_matching()
+    {
+        $session = new VotingSession(new \DateTimeImmutable("13-01-1989"), new \DateTimeImmutable("10-01-1989"), new \DateTimeImmutable("12-01-1989"));
+        $this->assertFalse($session->isFor(new \DateTimeImmutable('13-01-2000')));
+    }
 
 }

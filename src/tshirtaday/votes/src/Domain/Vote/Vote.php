@@ -23,4 +23,24 @@ final class Vote {
     {
         return $this->tshirtId->equals($tid) && $this->day == $day;
     }
+
+    public function isFromVoterOn(VoterId $vid, \DateTimeImmutable $day)
+    {
+        return $this->voterId->equals($vid) && $this->day == $day;
+    }
+
+    public function voterId()
+    {
+        return $this->voterId;
+    }
+
+    public function day()
+    {
+        return $this->day;
+    }
+
+    public function tshirtId()
+    {
+        return $this->tshirtId;
+    }
 }

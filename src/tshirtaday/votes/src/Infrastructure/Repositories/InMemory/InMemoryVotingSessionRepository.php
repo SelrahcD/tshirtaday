@@ -12,4 +12,17 @@ final class InMemoryVotingSessionRepository implements VotingSessionRepository {
     {
         $this->sessions[] = $session;
     }
+
+    public function sessionFor(\DateTimeImmutable $day)
+    {
+        $sessions = array_filter($this->sessions, function($session) use($day) {
+            return $session->isFor($day);
+        });
+
+        if($session = reset($sessions)) {
+            return $session;
+        }
+
+        return null;
+    }
 }

@@ -14,4 +14,15 @@ class TShirtId {
     {
         return $this->value == $otherTshirtId->value;
     }
+
+    public function toNative()
+    {
+        return $this->value;
+    }
+
+    public function __toString()
+    {
+        return (string) $this->value;
+    }
+
 }
