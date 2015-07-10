@@ -19,11 +19,6 @@ class ManageCatalogContext implements Context, SnippetAcceptingContext
 {
     private $catalog;
 
-    public function __construct()
-    {
-        date_default_timezone_set('UTC');
-    }
-
     /**
      * @Given a new catalog is created
      */
@@ -54,7 +49,7 @@ class ManageCatalogContext implements Context, SnippetAcceptingContext
      */
     public function aTshirtWithIdIsAddedToTheCatalog($id)
     {
-        $this->catalog->add(new TShirt(new TShirtId($id), 'Dummy description'));   
+        $this->catalog->add(new TShirt(new TShirtId($id), 'Dummy description'));
     }
 
     /**
