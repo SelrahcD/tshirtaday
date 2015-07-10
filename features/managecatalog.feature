@@ -1,3 +1,4 @@
+@catalog
 Feature:
     As an admin
     I want to manage the TShirt Catalog

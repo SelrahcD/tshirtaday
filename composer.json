@@ -12,10 +12,10 @@
     },
     "autoload": {
         "psr-4": {
-            "TShirtADay\\Catalog\\": "src/tshirtaday/catalog/src",
-            "TShirtADay\\Catalog\\Features\\": "src/tshirtaday/catalog/features",
-            "TShirtADay\\Votes\\": "src/tshirtaday/votes/src",
-            "TShirtADay\\Votes\\Features\\": "src/tshirtaday/votes/features"
+            "TShirtADay\\Catalog\\": "catalog/src",
+            "TShirtADay\\Catalog\\Features\\Contexts\\": "catalog/contexts",
+            "TShirtADay\\Votes\\": "votes/src",
+            "TShirtADay\\Votes\\Features\\Contexts\\": "votes/contexts"
         }
     }
 }

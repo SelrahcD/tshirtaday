@@ -1,3 +1,4 @@
+@votes
 Feature:
     As a voter
     I can vote to select a tshirt that has not been picked up yet for a given day

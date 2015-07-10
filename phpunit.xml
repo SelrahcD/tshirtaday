@@ -11,10 +11,10 @@
          syntaxCheck="false">
     <testsuites>
         <testsuite name="Catalog Test Suite">
-            <directory>./src/tshirtaday/catalog/tests/</directory>
+            <directory>./catalog/tests/</directory>
         </testsuite>
         <testsuite name="Votes Test Suite">
-            <directory>./src/tshirtaday/votes/tests/</directory>
+            <directory>./votes/tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

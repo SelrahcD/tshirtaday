@@ -1,12 +1,12 @@
 default:
     suites:
         catalog:
-            paths:
-                features: src/tshirtaday/catalog/features
+            filters:
+                tags: @catalog
             contexts:
                 - TShirtADay\Catalog\Features\Contexts\ManageCatalogContext
         votes:
-            paths:
-                features: src/tshirtaday/votes/features
+            filters:
+                tags: @votes
             contexts:
                 - TShirtADay\Votes\Features\Contexts\VoterCanVoteForATshirtForADay
