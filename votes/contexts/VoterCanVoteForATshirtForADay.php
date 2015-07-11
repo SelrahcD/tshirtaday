@@ -29,8 +29,6 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
 
     private $voteRepository;
 
-    private $voteOutcome;
-
     private $clock;
 
     public function __construct()
