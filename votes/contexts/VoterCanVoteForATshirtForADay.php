@@ -5,17 +5,17 @@ namespace TShirtADay\Votes\Features\Contexts;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use TShirtADay\Votes\Domain\Voter\Voter;
-use TShirtADay\Votes\Domain\Voter\VoterId;
+use TShirtADay\Votes\Domain\Model\Voter\Voter;
+use TShirtADay\Votes\Domain\Model\Voter\VoterId;
 use TShirtADay\Votes\Infrastructure\Repositories\InMemory\InMemoryTShirtRepository;
-use TShirtADay\Votes\Domain\TShirt\TShirt;
-use TShirtADay\Votes\Domain\TShirt\TShirtId;
-use TShirtADay\Votes\Domain\VotingSession\VotingSession;
+use TShirtADay\Votes\Domain\Model\TShirt\TShirt;
+use TShirtADay\Votes\Domain\Model\TShirt\TShirtId;
+use TShirtADay\Votes\Domain\Model\VotingSession\VotingSession;
 use TShirtADay\Votes\Infrastructure\Repositories\InMemory\InMemoryVotingSessionRepository;
 use TShirtADay\Votes\Infrastructure\Repositories\InMemory\InMemoryVoteRepository;
-use TShirtADay\Votes\Domain\Vote\VoteValidator;
-use TShirtADay\Votes\Domain\Vote\ValidationHandler;
-use TShirtADay\Votes\Domain\Clock\TestClock as Clock;
+use TShirtADay\Votes\Domain\Model\Vote\VoteValidator;
+use TShirtADay\Votes\Domain\Model\Vote\ValidationHandler;
+use TShirtADay\Votes\Domain\Model\Clock\TestClock as Clock;
 /**
  * Defines application features from the specific context.
  */

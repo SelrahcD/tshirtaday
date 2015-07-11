@@ -1,8 +1,8 @@
 <?php
 namespace TShirtADay\Votes\Infrastructure\Repositories\InMemory;
 
-use TShirtADay\Votes\Domain\VotingSession\VotingSessionRepository;
-use TShirtADay\Votes\Domain\VotingSession\VotingSession;
+use TShirtADay\Votes\Domain\Model\VotingSession\VotingSessionRepository;
+use TShirtADay\Votes\Domain\Model\VotingSession\VotingSession;
 
 final class InMemoryVotingSessionRepository implements VotingSessionRepository {
     

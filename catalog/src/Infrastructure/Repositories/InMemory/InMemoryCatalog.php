@@ -1,9 +1,9 @@
 <?php
 namespace TShirtADay\Catalog\Infrastructure\Repositories\InMemory;
 
-use TShirtADay\Catalog\Domain\TShirt\TShirt;
-use TShirtADay\Catalog\Domain\TShirt\TShirtId;
-use TShirtADay\Catalog\Domain\Catalog\Catalog;
+use TShirtADay\Catalog\Domain\Model\TShirt\TShirt;
+use TShirtADay\Catalog\Domain\Model\TShirt\TShirtId;
+use TShirtADay\Catalog\Domain\Model\Catalog\Catalog;
 
 class InMemoryCatalog implements Catalog {
 

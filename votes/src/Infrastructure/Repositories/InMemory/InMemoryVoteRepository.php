@@ -1,10 +1,10 @@
 <?php
 namespace TShirtADay\Votes\Infrastructure\Repositories\InMemory;
 
-use TShirtADay\Votes\Domain\Vote\Vote;
-use TShirtADay\Votes\Domain\Vote\VoteRepository;
-use TShirtADay\Votes\Domain\TShirt\TShirtId;
-use TShirtADay\Votes\Domain\Voter\VoterId;
+use TShirtADay\Votes\Domain\Model\Vote\Vote;
+use TShirtADay\Votes\Domain\Model\Vote\VoteRepository;
+use TShirtADay\Votes\Domain\Model\TShirt\TShirtId;
+use TShirtADay\Votes\Domain\Model\Voter\VoterId;
 
 final class InMemoryVoteRepository implements VoteRepository {
     

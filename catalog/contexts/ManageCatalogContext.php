@@ -8,9 +8,9 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use TShirtADay\Catalog\Infrastructure\Repositories\InMemory\InMemoryCatalog;
-use TShirtADay\Catalog\Domain\Admin\Admin;
-use TShirtADay\Catalog\Domain\TShirt\TShirt;
-use TShirtADay\Catalog\Domain\TShirt\TShirtId;
+use TShirtADay\Catalog\Domain\Model\Admin\Admin;
+use TShirtADay\Catalog\Domain\Model\TShirt\TShirt;
+use TShirtADay\Catalog\Domain\Model\TShirt\TShirtId;
 
 /**
  * Defines application features from the specific context.
