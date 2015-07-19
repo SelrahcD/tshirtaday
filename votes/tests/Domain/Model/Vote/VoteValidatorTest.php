@@ -33,7 +33,7 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_should_add_an_error_if_voter_already_voted_for_that_day()
+    public function it_should_return_false_if_voter_already_voted_for_that_day()
     {
         $this->voteRepository->shouldReceive('voteForVoterOn')
             ->once()
@@ -54,15 +54,13 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
 
         $validator = new VoteValidator($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $validationHandler = new ValidationHandler;
-        $validator->validate($vote, $validationHandler);
-        $this->assertEquals('Voter already voted for that day.', $validationHandler->getErrors()[0]);
+        $this->assertFalse($validator->isValid($vote));
     }
 
     /**
      * @test
      */
-    public function it_should_add_an_error_if_tshirt_doesnt_exist()
+    public function it_should_return_false_if_tshirt_doesnt_exist()
     {
         $this->voteRepository->shouldReceive('voteForVoterOn')
             ->once()
@@ -82,15 +80,13 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
 
         $validator = new VoteValidator($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $validationHandler = new ValidationHandler;
-        $validator->validate($vote, $validationHandler);
-        $this->assertEquals('TShirt tid doesnt exist', $validationHandler->getErrors()[0]);
+        $this->assertFalse($validator->isValid($vote));
     }
 
     /**
      * @test
      */
-    public function it_should_add_an_error_if_no_voting_session_opened()
+    public function it_should_return_false_if_no_voting_session_opened()
     {
         $this->voteRepository->shouldReceive('voteForVoterOn')
             ->once()
@@ -110,15 +106,13 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
 
         $validator = new VoteValidator($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $validationHandler = new ValidationHandler;
-        $validator->validate($vote, $validationHandler);
-        $this->assertEquals('No voting session opened for the 13-01-1989', $validationHandler->getErrors()[0]);
+        $this->assertFalse($validator->isValid($vote));
     }
 
     /**
      * @test
      */
-    public function it_should_add_an_error_if_today_is_outside_of_voting_session_opened()
+    public function it_should_return_false_if_today_is_outside_of_voting_session_opened()
     {
         $this->voteRepository->shouldReceive('voteForVoterOn')
             ->once()
@@ -139,15 +133,13 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
 
         $validator = new VoteValidator($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $validationHandler = new ValidationHandler;
-        $validator->validate($vote, $validationHandler);
-        $this->assertEquals('No voting session opened for the 13-01-1989', $validationHandler->getErrors()[0]);
+        $this->assertFalse($validator->isValid($vote));
     }
 
     /**
      * @test
      */
-    public function it_should_add_an_error_if_tshirt_was_already_elected()
+    public function it_should_return_false_if_tshirt_was_already_elected()
     {
         $this->voteRepository->shouldReceive('voteForVoterOn')
             ->once()
@@ -169,8 +161,6 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
 
         $validator = new VoteValidator($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $validationHandler = new ValidationHandler;
-        $validator->validate($vote, $validationHandler);
-        $this->assertEquals('TShirt tid was already elected', $validationHandler->getErrors()[0]);
+        $this->assertFalse($validator->isValid($vote));
     }
 }

@@ -28,34 +28,36 @@ final class VoteValidator
         $this->clock = $clock;
     }
 
-    public function validate(Vote $vote, ValidationHandler $validationHandler)
+    public function isValid(Vote $vote)
     {
         $tshirt = $this->tshirtRepository->withId($vote->tshirtId());
         $votingSession = $this->votingSessionRepository->sessionFor($vote->day());
 
         if($this->voteRepository->voteForVoterOn($vote->voterId(), $vote->day()) !== null)
         {
-            $validationHandler->handleError('Voter already voted for that day.');
+            return false;
         }
 
         if(!$tshirt)
         {
-            $validationHandler->handleError(sprintf('TShirt %s doesnt exist', $vote->tshirtId()));
+            return false;
         }
 
         if($tshirt && $tshirt->hasBeenElected())
         {
-            $validationHandler->handleError(sprintf('TShirt %s was already elected', $vote->tshirtId()));
+            return false;
         }
 
         if(!$votingSession)
         {
-            $validationHandler->handleError(sprintf('No voting session opened for the %s', $vote->day()->format('d-m-Y')));
+            return false;
         }
 
         if($votingSession && !$votingSession->acceptVoteOn($this->clock->today()))
         {
-            $validationHandler->handleError(sprintf('No voting session opened for the %s', $vote->day()->format('d-m-Y')));
+            return false;
         }
+
+        return true;
     }
 }

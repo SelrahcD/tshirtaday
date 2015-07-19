@@ -24,7 +24,6 @@ Scenario:
     And voter has voted for tshirt "tshirt1" for the "03-01-2015"
     When I vote for the TShirt "tshirt1" for the "03-01-2015"
     Then TShirt "tshirt1" should have 1 vote for the "03-01-2015"
-    And I should have an error "Voter already voted for that day."
 
 Scenario:
     A voter cannot vote for a unexistant tshirt
@@ -33,7 +32,7 @@ Scenario:
     And there is a voting a session for the "03-01-2015" opened from "01-01-2015" to "02-01-2015"
     And today is "01-01-2015"
     When I vote for the TShirt "tshirt2" for the "03-01-2015"
-    Then I should have an error "TShirt tshirt2 doesnt exist"
+    Then TShirt "tshirt2" should have 0 vote for the "03-01-2015"
 
 Scenario:
     A voter cannot vote if no voting session is opened
@@ -41,7 +40,7 @@ Scenario:
     And there is a TShirt with id "tshirt1"
     And today is "01-01-2015"
     When I vote for the TShirt "tshirt1" for the "03-01-2015"
-    Then I should have an error "No voting session opened for the 03-01-2015"
+    Then TShirt "tshirt1" should have 0 vote for the "03-01-2015"
 
 Scenario:
     A voter cannot vote if today is outside of a voting session
@@ -50,7 +49,7 @@ Scenario:
     And there is a voting a session for the "03-01-2015" opened from "01-01-2015" to "02-01-2015"
     And today is "01-01-2014"
     When I vote for the TShirt "tshirt1" for the "03-01-2015"
-    Then I should have an error "No voting session opened for the 03-01-2015"
+    Then TShirt "tshirt1" should have 0 vote for the "03-01-2015"
 
 Scenario:
     A voter cannot vote for an already elected tshirt
@@ -59,6 +58,6 @@ Scenario:
     And there is a voting a session for the "03-01-2015" opened from "01-01-2015" to "02-01-2015"
     And today is "01-01-2015"
     When I vote for the TShirt "tshirt1" for the "03-01-2015"
-    Then I should have an error "TShirt tshirt1 was already elected"
+    Then TShirt "tshirt1" should have 0 vote for the "03-01-2015"
 
 

@@ -36,7 +36,6 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
         $this->tshirtRepository = new InMemoryTShirtRepository;
         $this->votingSessionRepository = new InMemoryVotingSessionRepository;
         $this->voteRepository = new InMemoryVoteRepository;
-        $this->validationHandler = new ValidationHandler;
         $this->clock = new Clock;
     }
 
@@ -83,9 +82,7 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
 
         $validator = new VoteValidator($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
         
-        $validator->validate($vote, $this->validationHandler);
-
-        if(!$this->validationHandler->hasError()) {
+        if($validator->isValid($vote)) {
             $this->voteRepository->add($vote);
         }
     }
@@ -105,14 +102,6 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
     {
         $vote = $this->currentVoter->voteForTShirtOn(new TShirtId($tid), new \DateTimeImmutable($day));
         $this->voteRepository->add($vote);
-    }
-
-    /**
-     * @Then I should have an error :message
-     */
-    public function iShouldHaveAnError($message)
-    {
-        \PHPUnit_Framework_Assert::assertEquals($message, $this->validationHandler->getErrors()[0]);
     }
 
     /**
