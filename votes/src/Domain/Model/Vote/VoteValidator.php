@@ -1,7 +1,9 @@
 <?php
 namespace TShirtADay\Votes\Domain\Model\Vote;
 
+use TShirtADay\Votes\Domain\Model\TShirt\TShirtId;
 use TShirtADay\Votes\Domain\Model\TShirt\TShirtRepository;
+use TShirtADay\Votes\Domain\Model\Voter\VoterId;
 use TShirtADay\Votes\Domain\Model\VotingSession\VotingSessionRepository;
 use TShirtADay\Votes\Domain\Model\Clock\Clock;
 
@@ -30,34 +32,39 @@ final class VoteValidator
 
     public function isValid(Vote $vote)
     {
-        $tshirt = $this->tshirtRepository->withId($vote->tshirtId());
-        $votingSession = $this->votingSessionRepository->sessionFor($vote->day());
+        return $this->voterHasNotAlreadyVotedForDay($vote->voterId(), $vote->day())
+            && $this->tshirtExistsAndHasNotBeenElectedYet($vote->tshirtId())
+            && $this->aVotingSessionIsOpenedForDay($vote->day());
+    }
 
-        if($this->voteRepository->voteForVoterOn($vote->voterId(), $vote->day()) !== null)
-        {
-            return false;
-        }
+    /**
+     * @param VoterId $voterId
+     * @param \DateTimeImmutable $day
+     * @return bool
+     * @internal param Vote $vote
+     */
+    public function voterHasNotAlreadyVotedForDay(VoterId $voterId, \DateTimeImmutable $day)
+    {
+        return $this->voteRepository->voteForVoterOn($voterId, $day) === null;
+    }
 
-        if(!$tshirt)
-        {
-            return false;
-        }
+    /**
+     * @param TShirtId $tshirtId
+     * @return bool
+     */
+    public function tshirtExistsAndHasNotBeenElectedYet(TShirtId $tshirtId)
+    {
+        $tshirt = $this->tshirtRepository->withId($tshirtId);
+        return $tshirt && !$tshirt->hasBeenElected();
+    }
 
-        if($tshirt && $tshirt->hasBeenElected())
-        {
-            return false;
-        }
-
-        if(!$votingSession)
-        {
-            return false;
-        }
-
-        if($votingSession && !$votingSession->acceptVoteOn($this->clock->today()))
-        {
-            return false;
-        }
-
-        return true;
+    /**
+     * @param \DateTimeImmutable $day
+     * @return bool
+     */
+    public function aVotingSessionIsOpenedForDay(\DateTimeImmutable $day)
+    {
+        $votingSession = $this->votingSessionRepository->sessionFor($day);
+        return $votingSession && $votingSession->acceptVoteOn($this->clock->today());
     }
 }
