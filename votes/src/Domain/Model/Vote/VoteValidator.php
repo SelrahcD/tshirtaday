@@ -7,7 +7,7 @@ use TShirtADay\Votes\Domain\Model\Voter\VoterId;
 use TShirtADay\Votes\Domain\Model\VotingSession\VotingSessionRepository;
 use TShirtADay\Votes\Domain\Model\Clock\Clock;
 
-final class VoteValidator
+class VoteValidator
 {
     private $voteRepository;
 
