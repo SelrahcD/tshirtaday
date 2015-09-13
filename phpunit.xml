@@ -17,4 +17,12 @@
             <directory>./votes/tests/</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>catalog</directory>
+            <directory>votes</directory>
+        </whitelist>
+    </filter>
+
 </phpunit>
