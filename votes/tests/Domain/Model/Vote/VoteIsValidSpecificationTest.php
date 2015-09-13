@@ -7,7 +7,7 @@ use TShirtADay\Votes\Domain\Model\TShirt\TShirt;
 use TShirtADay\Votes\Domain\Model\Clock\TestClock;
 use TShirtADay\Votes\Domain\Model\VotingSession\VotingSession;
 
-class VoteValidatorTest extends \PHPUnit_Framework_TestCase
+class VoteIsValidSpecificationTest extends \PHPUnit_Framework_TestCase
 {
     private $voteRepository;
 
@@ -17,7 +17,11 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
 
     private $clock;
 
-    private $validator;
+
+    /**
+     * @var VoteIsValidSpecification
+     */
+    private $specification;
 
     public function setUp()
     {
@@ -25,7 +29,7 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
         $this->tshirtRepository = \Mockery::mock('TShirtADay\Votes\Domain\Model\TShirt\TShirtRepository');
         $this->votingSessionRepository = \Mockery::mock('TShirtADay\Votes\Domain\Model\VotingSession\VotingSessionRepository');
         $this->clock = new TestClock;
-        $this->validator = new VoteValidator($this->voteRepository, $this->tshirtRepository,
+        $this->specification = new VoteIsValidSpecification($this->voteRepository, $this->tshirtRepository,
             $this->votingSessionRepository, $this->clock);
     }
 
@@ -48,7 +52,7 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
         $this->todayIs('11-01-1989');
 
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $this->assertTrue($this->validator->isValid($vote));
+        $this->assertTrue($this->specification->isSatisfiedBy($vote));
     }
 
     /**
@@ -65,7 +69,7 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
         $this->todayIs('11-01-1989');
 
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $this->assertFalse($this->validator->isValid($vote));
+        $this->assertFalse($this->specification->isSatisfiedBy($vote));
     }
 
     /**
@@ -82,7 +86,7 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
         $this->todayIs('11-01-1989');
 
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $this->assertFalse($this->validator->isValid($vote));
+        $this->assertFalse($this->specification->isSatisfiedBy($vote));
     }
 
     /**
@@ -99,7 +103,7 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
         $this->todayIs('11-01-1989');
 
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $this->assertFalse($this->validator->isValid($vote));
+        $this->assertFalse($this->specification->isSatisfiedBy($vote));
     }
 
     /**
@@ -116,7 +120,7 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
         $this->todayIs('11-12-1989');
 
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $this->assertFalse($this->validator->isValid($vote));
+        $this->assertFalse($this->specification->isSatisfiedBy($vote));
     }
 
     /**
@@ -133,7 +137,7 @@ class VoteValidatorTest extends \PHPUnit_Framework_TestCase
         $this->todayIs('10-01-1989');
 
         $vote = new Vote(new VoterId('vid'), new TShirtId('tid'), new \DateTimeImmutable('13-01-1989'));
-        $this->assertFalse($this->validator->isValid($vote));
+        $this->assertFalse($this->specification->isSatisfiedBy($vote));
     }
 
     private function voterHasNotVoted()

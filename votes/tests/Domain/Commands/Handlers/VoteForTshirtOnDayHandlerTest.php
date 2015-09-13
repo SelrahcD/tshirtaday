@@ -9,7 +9,7 @@ use TShirtADay\Votes\Domain\Model\Clock\Clock;
 use TShirtADay\Votes\Domain\Model\TShirt\TShirtId;
 use TShirtADay\Votes\Domain\Model\TShirt\TShirtRepository;
 use TShirtADay\Votes\Domain\Model\Vote\VoteRepository;
-use TShirtADay\Votes\Domain\Model\Vote\VoteValidator;
+use TShirtADay\Votes\Domain\Model\Vote\VoteIsValidSpecification;
 use TShirtADay\Votes\Domain\Model\Voter\VoterId;
 use TShirtADay\Votes\Domain\Model\VotingSession\VotingSessionRepository;
 
@@ -23,15 +23,15 @@ class VoteForTshirtOnDayHandlerTest extends \PHPUnit_Framework_TestCase
     private $handler;
 
     /**
-     * @var VoteValidator
+     * @var VoteIsValidSpecification
      */
-    private $voteValidator;
+    private $voteIsValidSpecification;
 
     protected function setUp()
     {
         $this->voteRepository = \Mockery::mock(VoteRepository::class);
-        $this->voteValidator = \Mockery::mock(VoteValidator::class);
-        $this->handler = new VoteForTshirtOnDayHandler($this->voteRepository, $this->voteValidator);
+        $this->voteIsValidSpecification = \Mockery::mock(VoteIsValidSpecification::class);
+        $this->handler = new VoteForTshirtOnDayHandler($this->voteRepository, $this->voteIsValidSpecification);
     }
 
     protected function tearDown()
@@ -69,11 +69,11 @@ class VoteForTshirtOnDayHandlerTest extends \PHPUnit_Framework_TestCase
 
     private function isAValidVote()
     {
-        $this->voteValidator->shouldReceive('isValid')->andReturn(true);
+        $this->voteIsValidSpecification->shouldReceive('isSatisfiedBy')->andReturn(true);
     }
 
     private function isNotAValidVote()
     {
-        $this->voteValidator->shouldReceive('isValid')->andReturn(false);
+        $this->voteIsValidSpecification->shouldReceive('isSatisfiedBy')->andReturn(false);
     }
 }

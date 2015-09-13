@@ -13,7 +13,7 @@ use TShirtADay\Votes\Domain\Model\TShirt\TShirtId;
 use TShirtADay\Votes\Domain\Model\VotingSession\VotingSession;
 use TShirtADay\Votes\Infrastructure\Repositories\InMemory\InMemoryVotingSessionRepository;
 use TShirtADay\Votes\Infrastructure\Repositories\InMemory\InMemoryVoteRepository;
-use TShirtADay\Votes\Domain\Model\Vote\VoteValidator;
+use TShirtADay\Votes\Domain\Model\Vote\VoteIsValidSpecification;
 use TShirtADay\Votes\Domain\Model\Vote\ValidationHandler;
 use TShirtADay\Votes\Domain\Model\Clock\TestClock as Clock;
 /**
@@ -80,9 +80,9 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
     {
         $vote = $this->currentVoter->voteForTShirtOn(new TShirtId($tshirtId), new \DateTimeImmutable($day));
 
-        $validator = new VoteValidator($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
+        $validator = new VoteIsValidSpecification($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
         
-        if($validator->isValid($vote)) {
+        if($validator->isSatisfiedBy($vote)) {
             $this->voteRepository->add($vote);
         }
     }

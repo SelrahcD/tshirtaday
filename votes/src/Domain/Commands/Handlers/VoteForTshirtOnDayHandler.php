@@ -6,7 +6,7 @@ use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use TShirtADay\Votes\Domain\Commands\VoteForTshirtOnDayCommand;
 use TShirtADay\Votes\Domain\Model\Vote\ValidationHandler;
 use TShirtADay\Votes\Domain\Model\Vote\VoteRepository;
-use TShirtADay\Votes\Domain\Model\Vote\VoteValidator;
+use TShirtADay\Votes\Domain\Model\Vote\VoteIsValidSpecification;
 use TShirtADay\Votes\Domain\Model\Voter\Voter;
 
 /**
@@ -21,19 +21,19 @@ final class VoteForTshirtOnDayHandler
     private $voteRepository;
 
     /**
-     * @var VoteValidator
+     * @var VoteIsValidSpecification
      */
-    private $voteValidator;
+    private $voteIsValidSpecification;
 
     /**
      * VoteForTshirtOnDayHandler constructor.
      * @param VoteRepository $voteRepository
-     * @param VoteValidator $voteValidator
+     * @param VoteIsValidSpecification $voteValidator
      */
-    public function __construct(VoteRepository $voteRepository, VoteValidator $voteValidator)
+    public function __construct(VoteRepository $voteRepository, VoteIsValidSpecification $voteValidator)
     {
         $this->voteRepository = $voteRepository;
-        $this->voteValidator = $voteValidator;
+        $this->voteIsValidSpecification = $voteValidator;
     }
 
 
@@ -43,7 +43,7 @@ final class VoteForTshirtOnDayHandler
 
         $vote = $voter->voteForTShirtOn($command->tshirtId(), $command->day());
 
-        if($this->voteValidator->isValid($vote)) {
+        if($this->voteIsValidSpecification->isSatisfiedBy($vote)) {
             $this->voteRepository->add($vote);
         }
     }

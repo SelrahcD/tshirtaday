@@ -7,7 +7,7 @@ use TShirtADay\Votes\Domain\Model\Voter\VoterId;
 use TShirtADay\Votes\Domain\Model\VotingSession\VotingSessionRepository;
 use TShirtADay\Votes\Domain\Model\Clock\Clock;
 
-class VoteValidator
+class VoteIsValidSpecification implements VoteSpecification
 {
     private $voteRepository;
 
@@ -30,7 +30,7 @@ class VoteValidator
         $this->clock = $clock;
     }
 
-    public function isValid(Vote $vote)
+    public function isSatisfiedBy(Vote $vote)
     {
         return $this->voterHasNotAlreadyVotedForDay($vote->voterId(), $vote->day())
             && $this->tshirtExistsAndHasNotBeenElectedYet($vote->tshirtId())
