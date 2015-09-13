@@ -5,6 +5,8 @@ namespace TShirtADay\Votes\Features\Contexts;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use TShirtADay\Votes\Domain\Commands\Handlers\VoteForTshirtOnDayHandler;
+use TShirtADay\Votes\Domain\Commands\VoteForTshirtOnDayCommand;
 use TShirtADay\Votes\Domain\Model\Voter\Voter;
 use TShirtADay\Votes\Domain\Model\Voter\VoterId;
 use TShirtADay\Votes\Infrastructure\Repositories\InMemory\InMemoryTShirtRepository;
@@ -21,6 +23,9 @@ use TShirtADay\Votes\Domain\Model\Clock\TestClock as Clock;
  */
 class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
 {
+    /**
+     * @var Voter
+     */
     private $currentVoter;
 
     private $tshirtRepository;
@@ -78,13 +83,13 @@ class VoterCanVoteForATshirtForADay implements Context, SnippetAcceptingContext
      */
     public function iVoteForTheTshirtForThe($tshirtId, $day)
     {
-        $vote = $this->currentVoter->voteForTShirtOn(new TShirtId($tshirtId), new \DateTimeImmutable($day));
+        $command = new VoteForTshirtOnDayCommand(new TShirtId($tshirtId), $this->currentVoter->id(),  new \DateTimeImmutable($day));
 
-        $validator = new VoteIsValidSpecification($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
-        
-        if($validator->isSatisfiedBy($vote)) {
-            $this->voteRepository->add($vote);
-        }
+        $voteIsValidSpecification = new VoteIsValidSpecification($this->voteRepository, $this->tshirtRepository, $this->votingSessionRepository, $this->clock);
+
+        $handler = new VoteForTshirtOnDayHandler($this->voteRepository, $voteIsValidSpecification);
+
+        $handler->handle($command);
     }
 
     /**

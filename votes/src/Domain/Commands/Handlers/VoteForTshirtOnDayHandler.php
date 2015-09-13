@@ -28,12 +28,12 @@ final class VoteForTshirtOnDayHandler
     /**
      * VoteForTshirtOnDayHandler constructor.
      * @param VoteRepository $voteRepository
-     * @param VoteIsValidSpecification $voteValidator
+     * @param VoteIsValidSpecification $voteIsValidSpecification
      */
-    public function __construct(VoteRepository $voteRepository, VoteIsValidSpecification $voteValidator)
+    public function __construct(VoteRepository $voteRepository, VoteIsValidSpecification $voteIsValidSpecification)
     {
         $this->voteRepository = $voteRepository;
-        $this->voteIsValidSpecification = $voteValidator;
+        $this->voteIsValidSpecification = $voteIsValidSpecification;
     }
 
 

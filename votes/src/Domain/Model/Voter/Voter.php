@@ -17,4 +17,9 @@ final class Voter {
     {
         return new Vote($this->id, $tid, $day);
     }
+
+    public function id()
+    {
+        return $this->id;
+    }
 }
